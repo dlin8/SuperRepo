@@ -2,8 +2,7 @@
   Derek Lin
   APCS1 pd5
   HW45 -- Come Together
-  2015-12-10
-*/
+  2015-12-10 */
 
 public class Rational implements Comparable{
 
