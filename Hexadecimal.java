@@ -1,13 +1,13 @@
 /*
-  Team Grass - Lucy Tang, Derek Lin
+  Derek Lin
   APCS1 pd5
-  HW44--This or That or Fourteen Other Things
-  2015-12-09
+  HW45 -- Come Together
+  2015-12-10
 */
 
-public class Hexadecimal {
+public class Hexadecimal implements Comparable{
 
-    private int _decNum;
+    public int _decNum;
     private String _hexNum;
     private final static String HEXDIGITS = "0123456789ABCDEF";
 
@@ -175,12 +175,50 @@ public class Hexadecimal {
       post: Returns 0 if this Object is equal to the input Object,
       negative integer if this<input, positive integer otherwise
       =============================================*/
-    public int compareTo( Object other ) {
-        if (this._decNum > ((Hexadecimal)other)._decNum) return 1;
-	if (this._decNum < ((Hexadecimal)other)._decNum) return -1;
-	return 0;
+    public int compareTo( Object other) {
+	if (other instanceof Comparable){
+	    if(other == null || this == null){
+		throw new NullPointerException();
+	    }
+	    if(other instanceof Binary){
+		if (this._decNum == ((Binary)other)._decNum){
+		    return 0;
+		}
+		else if (this._decNum < ((Binary)other)._decNum){
+		    return -1;
+		}
+		else{
+		    return 1;
+		}
+	    }
+	    if(other instanceof Hexadecimal){
+		if (this._decNum == ((Hexadecimal)other)._decNum){
+		    return 0;
+		}
+		else if (this._decNum < ((Hexadecimal)other)._decNum){
+		    return -1;
+		}
+		else{
+		    return 1;
+		}
+	    }		
+	    if(other instanceof Rational){
+		if ((double)this._decNum == ((Rational)other).floatValue()){
+		    return 0;
+		}
+		else if ((double)this._decNum < ((Rational)other).floatValue()){
+		    return -1;
+		}
+		else{
+		    return 1;
+		}
+	    }
+	}
+	else{
+	    throw new ClassCastException();
+	}
+	return -2;
     }
-
 
     //main method for testing
     public static void main( String[] args ) {

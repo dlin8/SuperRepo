@@ -1,10 +1,10 @@
 /* Derek Lin
    APCS1 pd5
-   HW43 -- This or That
-   2015-12-08 */
+   HW45 -- Come Together
+   2015-12-10 */
 
 public class Binary implements Comparable{
-    private int _decNum;
+    public int _decNum;
     private String _binNum;
 
     /*=====================================
@@ -160,16 +160,49 @@ public class Binary implements Comparable{
       post: Returns 0 if this Object is equal to the input Object,
       negative integer if this<input, positive integer otherwise
       =============================================*/
-    public int compareTo( Object other ) {
-	if (other instanceof Binary){
-	    if (this.equals(other)){
-		return 0;
+    public int compareTo( Object other) {
+	if (other instanceof Comparable){
+	    if(other == null || this == null){
+		throw new NullPointerException();
 	    }
-	    else if(this._decNum < ((Binary)other)._decNum){
-		return -1;
+	    if(other instanceof Binary){
+		if (this._decNum == ((Binary)other)._decNum){
+		    return 0;
+		}
+		else if (this._decNum < ((Binary)other)._decNum){
+		    return -1;
+		}
+		else{
+		    return 1;
+		}
+	    }
+	    if(other instanceof Hexadecimal){
+		if (this._decNum == ((Hexadecimal)other)._decNum){
+		    return 0;
+		}
+		else if (this._decNum < ((Hexadecimal)other)._decNum){
+		    return -1;
+		}
+		else{
+		    return 1;
+		}
+	    }		
+	    if(other instanceof Rational){
+		if ((double)this._decNum == ((Rational)other).floatValue()){
+		    return 0;
+		}
+		else if ((double)this._decNum < ((Rational)other).floatValue()){
+		    return -1;
+		}
+		else{
+		    return 1;
+		}
 	    }
 	}
-	return 1;
+	else{
+	    throw new ClassCastException();
+	}
+	return -2;
     }
 
 
@@ -240,6 +273,9 @@ public class Binary implements Comparable{
 	System.out.println("b4.compareTo(b1), should be pos");
 	System.out.println( b4.compareTo(b1) ); //should be pos
 
+	Integer i = new Integer(5);
+	System.out.println(b4.compareTo(i));
+	
     }//end main()
 
 } //end class

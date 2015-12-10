@@ -1,8 +1,8 @@
 /*
-  Team Pandas -- Jordan Louie, Derek Lin
+  Derek Lin
   APCS1 pd5
-  HW41 -- In America, the Driver Sits on the Left
-  2015 - 12 - 04
+  HW45 -- Come Together
+  2015-12-10
 */
 
 public class Rational implements Comparable{
@@ -124,29 +124,49 @@ public class Rational implements Comparable{
       return 0, if both equal
       return 1 if calling num > param
       return -1 if calling num < param*/
-    public int compareTo(Object o) {
-	    int i = 0;
-	    if(o instanceof Rational){
-	        Rational a = new Rational(this.num, this.den);
-	        Rational b = new Rational( ((Rational)o).num, ((Rational)o).den ); //Typecasting Object o to a Rational so that num and den can be called.
-	        a.reduce();
-	        b.reduce();
-	        if(a.num * b.den == b.num * a.den) {
-	            i = 0;
-	            return i;
-	        }
-	        else if(a.num * b.den > b.num * a.den){
-	            i = 1;
-	            return i;
-	        }
-	        else{
-	            i = -1;
-	            return i;
-	        }
+    public int compareTo( Object other) {
+	if (other instanceof Comparable){
+	    if(other == null || this == null){
+		throw new NullPointerException();
 	    }
-	    i = -2;
-	    System.out.println("Invalid parameter, must be a Rational.");
-	    return i;
+	    if(other instanceof Binary){
+		if (this.floatValue() == (double)((Binary)other)._decNum){
+		    return 0;
+		}
+		else if (this.floatValue() < (double)((Binary)other)._decNum){
+		    return -1;
+		}
+		else{
+		    return 1;
+		}
+	    }
+	    if(other instanceof Hexadecimal){
+		if (this.floatValue() == (double)((Hexadecimal)other)._decNum){
+		    return 0;
+		}
+		else if (this.floatValue() < (double)((Hexadecimal)other)._decNum){
+		    return -1;
+		}
+		else{
+		    return 1;
+		}
+	    }		
+	    if(other instanceof Rational){
+		if (this.floatValue() == ((Rational)other).floatValue()){
+		    return 0;
+		}
+		else if (this.floatValue() < ((Rational)other).floatValue()){
+		    return -1;
+		}
+		else{
+		    return 1;
+		}
+	    }
+	}
+	else{
+	    throw new ClassCastException();
+	}
+	return -2;
     }
     
     //equals method

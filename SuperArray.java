@@ -1,13 +1,13 @@
-//Team Panda - Jordan Louie, Derek Lin
-//APCS1 pd5
-//HW42 -- Array of Titanium
-//2015-12-07
+/*Derek Lin
+  APCS1 pd5
+  HW45 -- Come Together
+  2015-12-10 */
 
-public class SuperArray implements ListInt{
+public class SuperArray implements ListComparable{
  
     //~~~~~INSTANCE VARS~~~~~
     //underlying container, or "core" of this data structure:
-    private int[] _data;
+    private Comparable[] _data;
 
     //position of last meaningful value
     private int _lastPos;
@@ -17,10 +17,10 @@ public class SuperArray implements ListInt{
 
 		
     //~~~~~METHODS~~~~~
-    //default constructor ¡V initializes 10-item array
+    //default constructor initializes 10-item array
     public SuperArray() 
     { 
-	_data = new int[10];
+	_data = new Comparable[10];
 	_lastPos = -1; //flag to indicate no lastpos yet
 	_size = 0;	
     }
@@ -39,23 +39,13 @@ public class SuperArray implements ListInt{
 	}
 	s += "]";
 	return s;
-	
-	/*String foo = "[";
-	  for( int i = 0; i < _size; i++ ) {
-	  foo += _data[i] + ",";
-	  }
-	  //shave off trailing comma
-	  if ( foo.length() > 1 )
-	  foo = foo.substring( 0, foo.length()-1 );
-	  foo += "]";
-	  return foo;*/
     }
 
 		
     //double capacity of this SuperArray
     private void expand() 
     { 
-	int[] temp = new int[ _data.length * 2 ];
+	Comparable[] temp = new Comparable[ _data.length * 2 ];
 	for( int i = 0; i < _data.length; i++ )
 	    temp[i] = _data[i];
 	_data = temp;
@@ -63,14 +53,14 @@ public class SuperArray implements ListInt{
 
 		
     //accessor -- return value at specified index
-    public int get( int index ) { return _data[index]; }
+    public Comparable get( int index ) { return _data[index]; }
 
 		
     //mutator -- set value at index to newVal, 
     //           return old value at index
-    public int set( int index, int newVal ) 
+    public Comparable set( int index, Comparable newVal ) 
     { 
- 	int temp = _data[index];
+ 	Comparable temp = _data[index];
 	_data[index] = newVal;
 	return temp;
     }
@@ -78,7 +68,7 @@ public class SuperArray implements ListInt{
 
     // ~~~~~~~~~~~~~~ PHASE II ~~~~~~~~~~~~~~
     //adds an item after the last item
-    public void add( int newVal ) {
+    public void add( Comparable newVal ) {
 	_data[_lastPos+1] = newVal;
 
 	//update vars
@@ -89,7 +79,7 @@ public class SuperArray implements ListInt{
 
     //inserts an item at index
     //shifts existing elements to the right
-    public void add( int index, int newVal ) {
+    public void add( int index, Comparable newVal ) {
     	if(!(index > _lastPos+1)){
 	    for (int i = _lastPos; i >= index; i--){
 		_data[i + 1] = _data[i];
@@ -123,105 +113,80 @@ public class SuperArray implements ListInt{
 	return _size;
     }
 
-
+    public int linSearch(Comparable some){
+	int retInt = -1;
+	for(int i = 0; i < _lastPos; i++){
+	    if (
+		_data[i].compareTo(some) == 0){
+		retInt = i;
+		return retInt;
+	    }
+	}
+	return retInt;
+    }
+    public boolean isSorted(){
+	int temp = 0;
+	for(int i = 1; i <= _lastPos; i++){
+	    temp = _data[i].compareTo(_data[i-1]);
+	    System.out.println(_data[i]);
+	    System.out.println(_data[i-1]);
+	    System.out.println(temp);
+	    System.out.println();
+	    if (temp == -1){
+		return false;
+	    }
+	}
+	return true;
+    }
+    
     //main method for testing
     public static void main( String[] args ) 
     {
-	SuperArray curtis = new SuperArray();
-	System.out.println("Printing empty SuperArray curtis...");
-	System.out.println(curtis);
-
-	for( int i = 0; i < curtis._data.length; i++ ) {
-	    curtis.set(i,i*2);
-	    curtis._size++; //necessary bc no add() method yet
-	}
-
-	System.out.println("Printing populated SuperArray curtis...");
-	System.out.println(curtis);
-
-	System.out.println("testing get()...");
-	for( int i = 0; i < curtis._size; i++ ) {
-	    System.out.print( "item at index" + i + ":\t" );
-	    System.out.println( curtis.get(i) );
-	}
-
-	System.out.println("Expanded SuperArray curtis:");
-	curtis.expand();
-	System.out.println(curtis);
-
-	SuperArray mayfield = new SuperArray();
-	System.out.println("Printing empty SuperArray mayfield...");
-	System.out.println(mayfield);
-
-	mayfield.add(5);
-	mayfield.add(4);
-	mayfield.add(3);
-	mayfield.add(2);
-	mayfield.add(1);
-
-	System.out.println("Printing populated SuperArray mayfield...");
-	System.out.println(mayfield);
-
-	mayfield.remove(3);
-	System.out.println("Printing SuperArray mayfield post-remove...");
-	System.out.println(mayfield);
-	mayfield.remove(3);
-	System.out.println("Printing SuperArray mayfield post-remove...");
-	System.out.println(mayfield);
-
-	mayfield.add(3,99);
-	System.out.println("Printing SuperArray mayfield post-insert...");
-	System.out.println(mayfield);
-	mayfield.add(2,88);
-	System.out.println("Printing SuperArray mayfield post-insert...");
-	System.out.println(mayfield);
-	mayfield.add(1,77);
-	System.out.println("Printing SuperArray mayfield post-insert...");
-	System.out.println(mayfield);
-
-	System.out.println("How big is mayfield currently?:");
-	System.out.println(mayfield.size());
-	  
-	  
-	ListInt panda = new SuperArray();
-	System.out.println("Printing empty SuperArray panda...");
-	System.out.println(panda);
-
-	panda.add(5);
-	panda.add(4);
-	panda.add(3);
-	panda.add(2);
-	panda.add(1);
-
-	System.out.println("Printing populated SuperArray panda...");
-	System.out.println(panda);
-
-	panda.remove(3);
-	System.out.println("Printing SuperArray panda post-remove...");
-	System.out.println(panda);
-	panda.remove(3);
-	System.out.println("Printing SuperArray panda post-remove...");
-	System.out.println(panda);
-
-	panda.add(3,99);
-	System.out.println("Printing SuperArray panda post-insert...");
-	System.out.println(panda);
-	panda.add(2,88);
-	System.out.println("Printing SuperArray panda post-insert...");
-	System.out.println(panda);
-	panda.add(1,77);
-	System.out.println("Printing SuperArray panda post-insert...");
-	System.out.println(panda);
-	
-	System.out.println("How big is panda currently?:");
-	System.out.println(panda.size());
-	
-	panda.add(7,66);
-	System.out.println("Printing SuperArray panda post-insert...");
-	System.out.println(panda);
-
-	System.out.println("How big is panda currently?:");
-	System.out.println(panda.size());
+	SuperArray bad = new SuperArray();
+	SuperArray good = new SuperArray();
+	Rational one = new Rational(1,1);
+	Rational half = new Rational(1,2);
+	Rational fourth = new Rational(1,4);
+	Binary two = new Binary(2);
+	Binary four = new Binary(4);
+	Binary eight = new Binary(8);
+	Hexadecimal sixteen = new Hexadecimal(16);
+	Hexadecimal thirtytwo = new Hexadecimal(32);
+	Hexadecimal zero = new Hexadecimal(0);
+	System.out.println(one);
+	System.out.println(half);
+	System.out.println(fourth);
+	System.out.println(two);
+	System.out.println(four);
+	System.out.println(eight);
+	System.out.println(sixteen);
+	System.out.println(thirtytwo);
+	System.out.println(zero);
+	bad.add(one);
+	bad.add(half);
+	bad.add(fourth);
+	bad.add(two);
+	bad.add(four);
+	bad.add(eight);
+	bad.add(sixteen);
+	bad.add(thirtytwo);
+	bad.add(zero);
+	System.out.println(bad);
+	System.out.println(bad.linSearch(sixteen));
+	Hexadecimal hundred = new Hexadecimal(100);
+	System.out.println(bad.linSearch(hundred));
+	System.out.println(bad.isSorted());
+	good.add(zero);
+	good.add(fourth);
+	good.add(half);
+	good.add(one);
+	good.add(two);
+	good.add(four);
+	good.add(eight);
+	good.add(sixteen);
+	good.add(thirtytwo);
+	System.out.println(good);
+	System.out.println(good.isSorted());
     }//end main
 		
 }//end class
